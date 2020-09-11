@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="../js/vue_js/axios.min.js"></script>
+		<script src="../js/vue_js/vue.min.js"></script>
+		<script src="../js/vue_js/vue-resource.min.js"></script>
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="../js/Element-UI/index.css">
+		<!-- 引入组件库 -->
+		<script src="../js/Element-UI/index.js"></script>
+		<title>香山堂插件助手</title>
+	</head>
+	<body>
+		<div id="app" style="color: #0000FF;">
+			<el-tabs v-model="activeName" @tab-click="handleClick">
+				<el-tab-pane label="商品信息" name="first">
+				<div>
+						<el-input placeholder="请输入商品编号" v-model="pUserCode" clearable>
+						</el-input>
+						<el-button type="primary" @click="uploadPtype">上传商品到广九</el-button>
+				</div>
+				</el-tab-pane>
+					<el-tab-pane label="往来单位" name="second">
+					<div>
+							<el-input placeholder="请输入往来单位编号" v-model="bUserCode" clearable>
+							</el-input>
+							<el-button type="primary" @click="uploadBtype">上传往来单位到广九</el-button>
+					</div>
+					
+				</el-tab-pane>
+				<!-- <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+			    <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane> -->
+			</el-tabs>
+		</div>
+		<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					IP: 'http://zsh-lj.gnway.cc:8030/',
+					activeName: 'first',
+					pUserCode: '', //商品编号
+					bUserCode: '', //往来单位编号
+
+				},
+				created() {},
+				methods: {
+					//上传商品
+					uploadPtype() {
+						if(this.pUserCode  === ''){
+							this.$message({
+								message: "编号不能为空",
+								type: 'warning'
+							});
+							return
+						}
+						axios.get(this.IP + 'ptype/uploadPtype?userCode='+this.pUserCode, {})
+							.then(response => {
+								console.log(response.data)
+								if(response.data.flag){
+									this.$message({
+										message: "上传成功",
+										type: 'success'
+									});
+								}else{
+									this.$message({
+										message: "上传失败"+response.data.errInfo,
+										type: 'warning'
+									});
+								}
+								
+						
+							})
+							.catch(erro => {
+								this.$message({
+									message: '服务器出现故障！',
+									type: 'warning'
+								});
+							});
+					},
+					//上传往来单位
+					uploadBtype() {
+						if(this.bUserCode  === ''){
+							this.$message({
+								message: "编号不能为空",
+								type: 'warning'
+							});
+							return
+						}
+						axios.get(this.IP + 'btype/uploadBtype?userCode='+this.bUserCode, {})
+							.then(response => {
+								if(response.data.flag){
+									console.log(response.data)
+									this.$message({
+										message: "上传成功",
+										type: 'success'
+									});
+									
+								}else{
+									this.$message({
+										message: "上传失败"+response.data.errInfo,
+										type: 'warning'
+									});
+								}
+								
+						
+							})
+							.catch(erro => {
+								this.$message({
+									message: '服务器出现故障！',
+									type: 'warning'
+								});
+							});
+					},
+					handleClick(tab, event) {
+						console.log(tab, event);
+					}
+				}
+			})
+		</script>
+		<style>
+			.el-input {
+				width: 300px;
+			}
+		</style>
+	</body>
+</html>

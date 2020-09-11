@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xst.qf.dao.BuyBillDao">
+
+<select id="getBuyBill_Upload" parameterType="string" resultType="com.xst.qf.beans.jztBean.InStockPlan_Upload">
+
+           select '285868913816565' as Operator_Id,
+            '27b4947e40b440a29ab16526b4d76d11' as Con_Id,
+            '4bc3ac2758efe711873c1866dafb5571' as Ldc_Id,
+        inbill.BillID as BUSINESSBILL_NO,(SELECT userCode from btype where Rec =  inbill.BRec) as Ssa_No,
+        '9' as Goods_Type,'A1' as Arrival_Mode,'' as Tdeladdress_Id,'' as Storageaddress_Id,
+        '' as Takegds_Time,( select FullName from employee where REC = OrderIdx.BillEID)as Invoice_Staff,
+        inbill.BillDate as Invoice_Time,OrderIdx.Billcode as Remarks,'1' as BUSINESS_TYPE,
+        1 as BILL_DTL_ID_OLD,(Select userCode from ptype where Rec = inbill.PRec) as Goods_No,
+        '' as Outstorebill_No,Jobnumber as Goods_Lotno,OutFactoryDate as Production_Date,ValidityPeriod as Valid_Until,
+        inbill.BeforeCheckQty as ACTUAL_QTY,
+         (select  cast(TaxPrice as decimal(9,2)) from OrderBill where ord = inbill.SourceOrd)as Price,
+        (select  cast(TaxTotal as decimal(9,2)) from OrderBill where ord = inbill.SourceOrd) as Amount,
+        '' as Acceptance_Check_Rlt,'' as Rp_Reasons,'' as Goods_Value,'' as Kilometers,'' as Aging
+         from GSP_InBill as  inbill
+         left join OrderIndex as OrderIdx on inbill.plan_id = OrderIdx.BillID
+         where inbill.BillID = #{billCode}
+
+</select>
+    
+<update id="ZXY_GJ_RK_SC_BILL" parameterType="com.xst.qf.beans.qfBean.ZXY_GJ_RK_SC_BILL_Bean">
+    exec ZXY_GJ_RK_SC_BILL #{DANJ_NO},#{picihao},#{yx_date},#{sc_date},#{ss_qty},#{CHOUY_QTY},
+    #{PRICE},#{billid},#{prec},#{Checker},#{SHR},#{RIQI_CHAR},#{RUK_TYPE},#{zxy_countId},
+    #{return_billid},#{YANS_RLT}
+</update>
+</mapper>

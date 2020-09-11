@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xst.qf.dao.SaleBillDao">
+
+    <select id="getSaleBill_Upload" parameterType="string" resultType="com.xst.qf.beans.jztBean.OutStockPlan_Upload">
+    select '285868913816565' as Operator_Id,
+    '27b4947e40b440a29ab16526b4d76d11' as Con_Id,
+    '4bc3ac2758efe711873c1866dafb5571' as Ldc_Id,
+    outbill.BillCode as Biz_Bill_No,(select UserCode from btype where Rec = outbill.BRec) as Ssa_No,
+    '9' as Goods_Type,'2' as Outbound_Mode,'' as Outbaddress_Id,'' as Delivery_Address_Id,
+    ( select FullName from employee where REC = BIndex.BillE) as Invoice_Staff,
+    outbill.BillDate as Invoice_Time,'' as Remarks,'1' as Sale_Type,'' as Delivery_Time,
+    outbill.Ord as Bill_Dtl_Id,(select UserCode from ptype where Rec = outbill.PRec) as Goods_No,
+    '' as InstoreBill_No,Jobnumber as Goods_Lotno,OutFactoryDate as Production_Date,ValidityPeriod as Valid_Until,
+    qty as Outnbound_Quantity,
+    (select taxPrice from  SaleBill where BillID =BIndex.BillId and ord = outbill.Ord ) as Price,
+    (select TaxTotal from  SaleBill where BillID =BIndex.BillId and ord = outbill.Ord ) as Amount,'' as Goods_Value,'' as Kilometers,
+    '' as Aging,'N' as Is_Sceneprint,'Y' as Is_Receipt,outbill.QualityStatus as Rp_Cate,outbill.BackReason as Rp_Reasons
+    from GSP_OutBill as outbill
+    left join BillIndex as BIndex on BIndex.Billcode = outbill.BillCode
+    where outbill.BillCode = #{billCode}
+</select>
+    <update id="ZXY_XS_CK_SC_BILL" parameterType="com.xst.qf.beans.qfBean.ZXY_XS_CK_SC_BILL_Bean">
+        exec ZXY_XS_CK_SC_BILL #{Checker},#{cc_qty},#{puserCode},#{RIQI_CHAR},#{YEW_TYPE},#{billcode},
+        #{pici},#{hanghao};
+</update>
+
+</mapper>

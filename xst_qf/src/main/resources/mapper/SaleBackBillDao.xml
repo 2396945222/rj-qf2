@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xst.qf.dao.SaleBackBillDao">
+
+<select id="getSaleBackBill_Upload" parameterType="string" resultType="com.xst.qf.beans.jztBean.InStockPlan_Upload">
+        select '285868913816565' as Operator_Id,
+        '27b4947e40b440a29ab16526b4d76d11' as Con_Id,
+        '4bc3ac2758efe711873c1866dafb5571' as Ldc_Id,
+        inbill.billcode as BUSINESSBILL_NO,(SELECT userCode from btype where Rec =  inbill.BRec) as Ssa_No,
+        '9' as Goods_Type,'A1' as Arrival_Mode,'' as Tdeladdress_Id,'' as Storageaddress_Id,
+        '' as Takegds_Time,( select FullName from employee where REC = OrderIdx.BillE)as Invoice_Staff,
+        inbill.BillDate as Invoice_Time,OrderIdx.Billcode as Remarks,'4' as BUSINESS_TYPE,
+        (select ord from GSP_BackBill where BillID = OrderIdx.BillID and StockUniqueid= inbill.StockUniqueid) as BILL_DTL_ID_OLD,(Select userCode from ptype where Rec = inbill.PRec) as Goods_No,
+        '' as Outstorebill_No,Jobnumber as Goods_Lotno,OutFactoryDate as Production_Date,ValidityPeriod as Valid_Until,
+        inbill.BeforeCheckQty as ACTUAL_QTY,inbill.Price as Price,inbill.TotalMoney as Amount,
+        '' as Acceptance_Check_Rlt,inbill.BackReason as Rp_Reasons,'' as Goods_Value,'' as Kilometers,'' as Aging
+         from GSP_InBill as  inbill
+         left join GSP_BackBillIndex as OrderIdx on inbill.plan_id = OrderIdx.BillID
+         where inbill.BillCode = #{billCode}
+
+</select>
+
+</mapper>

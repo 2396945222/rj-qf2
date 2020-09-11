@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xst.qf.dao.PtypeDao">
+    <select id="getPtypeByUserCode" resultType="com.xst.qf.beans.jztBean.Ptype_Upload">
+        select UserCode as Goods_No,FullName as Goods_Name,FullName as Universal_Name, PYZJM as Mnemonic_Code,
+        Standard as Drug_Spec,(select FullName
+        FROM cstype
+        WHERE rec = area), proarea as Producing_Area,UnitRate1 as Package_Qty ,
+        Unit1 as Package_Unit,PermitNo as Approval_No, PermitNoPeriod as Approval_No_Valid_Until,
+        Type as Dosage_Form,comment as Drug_Cate,1 as M_Package_Qty, 1 as Goods_Length,1 as Goods_Width,
+        1 as Goods_Weight,
+        (select fullname from csType where  rec = p.area) as Manufacturer,
+        (select fullname from csType where  rec = p.LicenseHolder) as marketingAuthorisationHolder,
+        ( case when StorageCondition like '%冻%' then 'D' when StorageCondition like '%冷%' then 'L' when StorageCondition like '%凉%' then 'Y' else 'C' end )
+        as Storage_Condition,
+        ( case when StorageCondition like '%冻%' then '2' when StorageCondition like '%冷%' then '1' when StorageCondition like '%凉%' then '0' else '00' end )  as Refrigeration_Type
+        FROM ptype as p
+        where soncount = 0 and deleted = 0 and stopsale = 0
+        <if test="userCode !=null and userCode != ''">
+            and userCode = #{userCode}
+        </if>
+
+  </select>
+</mapper>

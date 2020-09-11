@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xst.qf.dao.BtypeDao">
+    <select id="getBtypeByUserCode" resultType="com.xst.qf.beans.qfBean.Btype_qf">
+      select Rec,UserCode,FullName,PYZJM,address as Ssa_Addr_Phone,
+    (case parid when '00002' then '1' else  '2' end) as Ssa_Sign,
+    'N' as Is_Hospital_Customer,'Y' as Is_Active,
+    '972fb67b80f0457bbc33c1d78ecb00a0' AS Creator,ckdz as Address,Person as Contact_Name,LinkPhone as Contact_Phone,
+     'Y' as Is_Default,'27b4947e40b440a29ab16526b4d76d11' AS Con_Id,Account as Bankaccount,
+    (select top 1 BusinessLicenceNO from GSP_N_BusinessLicence where UnitName = b.FullName order by DealRange desc) as Business_Licence_No,
+    (select top 1 DealRange from GSP_N_BusinessLicence where UnitName = b.FullName  order by DealRange desc) as Business_Licence_No_Valid_Until,
+    (select top 1 UserCode from GSPGMPTabel where FullName = b.FullName order by validityPeriod desc) as GMP_License,
+    (select top 1 validityPeriod from GSPGMPTabel where FullName = b.FullName order by validityPeriod desc) as GMP_License_Valid_Until,
+    (select top 1 AdmitLicenceNO from GSP_N_AdmitLicence where UnitName = b.FullName order by ValidityPeriod desc) as Production_License_No,
+    (select top 1 ValidityPeriod from GSP_N_AdmitLicence where UnitName = b.FullName order by ValidityPeriod desc) as Production_License_No_Valid_Until
+    from btype as b where  sonnum = 0 and deleted = 0 and stopsale = 0
+        <if test="userCode !=null and userCode != ''">
+            and userCode = #{userCode}
+        </if>
+
+  </select>
+</mapper>
