@@ -22,6 +22,8 @@ public class TestMain {
 //        testMap.put("key2", "value2");
 //        String createSign = createSign(testMap);
 //        System.out.println(TestMain.createSign(testMap));
+
+        System.out.println("郑晓羽");
     }
     static String  API_KEY = "zykj_B2B";
     public static String createSign(SortedMap<Object, Object> parameters) {
