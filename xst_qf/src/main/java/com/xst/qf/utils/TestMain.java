@@ -1,5 +1,4 @@
 package com.xst.qf.utils;
-
 import com.xst.qf.dao.BtypeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -9,7 +8,6 @@ import java.util.*;
 public class TestMain {
     @Autowired
     private BtypeDao btypeDao;
-
     public static void main(String[] args) {
         System.out.println(new Date().getTime());
 //        JztApi jztApi = new JztApi();
@@ -26,16 +24,8 @@ public class TestMain {
 //        System.out.println(TestMain.createSign(testMap));
 
         System.out.println("郑晓羽");
-        System.out.println("郑晓羽");
-        System.out.println("郑晓羽");
-        System.out.println("郑晓羽");
-        System.out.println("郑晓羽");
-
-
     }
-
-    static String API_KEY = "zykj_B2B";
-
+    static String  API_KEY = "zykj_B2B";
     public static String createSign(SortedMap<Object, Object> parameters) {
         StringBuffer sb = new StringBuffer();
         Set<Map.Entry<Object, Object>> set = parameters.entrySet();
