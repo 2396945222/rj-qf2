@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rj.qf.dao.SaleBackBillDao">
+    <select id="addSaleBackBillIndex" resultType="integer" parameterType="com.rj.qf.bean.qf.sale.SaleBackIndex">
+            declare @BillId int;
+            exec @BillId = GSP_InsBackBillIndex
+            #{billId},#{bRec},#{eRec},#{CheckEId},#{BillE},#{BillDate},
+            #{Billcode},#{billtype},#{totalmoney},#{totalqty},#{checked},
+            #{comment},0,#{SourceBillCode},#{SourceId},#{ORec}
+            select @BillId ;
+    </select>
+    <select id="addSaleBackBill" parameterType="com.rj.qf.bean.qf.sale.SaleBackBill">
+           exec GSP_InsBackBill #{BillID},#{pRec},#{jobnumber},#{GermJobnumber},#{ValidityPeriod},#{OutFactoryDate},
+           #{qty},#{price},#{Total},#{unitRate},#{unitIndex},#{memo},#{Costprice},#{ProviderId},#{PtypeSource},
+           #{StockUniqueid},#{jobcodel},#{CheckReportNo},#{Ord},#{pricetype},#{BackReason},#{sourcesaleid},
+           #{Tax},#{Taxprice},#{TaxTotal},#{GJobID}
+    </select>
+
+</mapper>

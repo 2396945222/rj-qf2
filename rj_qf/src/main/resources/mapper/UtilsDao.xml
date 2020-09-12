@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rj.qf.dao.UtilsDao">
+
+
+    <select id="getStockByUserCode" parameterType="string" resultType="com.rj.qf.bean.qf.qf_stock">
+        select rec as rec,fullname as fullname,userCode as userCode
+        from stock where userCode = #{userCode} and deleted = 0
+    </select>
+    <select id="getBtypeByUserCode" parameterType="string" resultType="com.rj.qf.bean.qf.qf_btype">
+        select rec as rec,fullname as fullname,userCode as userCode
+        from btype where userCode = #{userCode} and deleted = 0
+    </select>
+    <select id="getPtypeByUserCode" parameterType="string" resultType="com.rj.qf.bean.qf.qf_ptype">
+           select rec as rec,fullname as fullname,userCode as userCode
+        from ptype where userCode = #{userCode} and deleted = 0
+
+    </select>
+    <select id="getEmployeeByUserCode" parameterType="string" resultType="com.rj.qf.bean.qf.qf_employee">
+         select rec as rec,fullname as fullname,userCode as userCode
+         from employee where userCode = #{userCode} and deleted = 0
+    </select>
+    <select id="getGoodsStcokUidAndProviderId" parameterType="hashmap" resultType="hashmap">
+    select TOP 1 ProviderId,StockUniqueid,price from GoodsStocks
+    WHERE PRec = #{pRec} AND OutFactoryDate =  #{scDate}
+    AND ValidityPeriod = #{yxDate} and KRec =#{kRec} and JobNumber = #{jobNumber}
+    </select>
+    <select id="getNewId" resultType="string">
+    select NEWID();
+    </select>
+
+    <select id="getBuyInfoByBillCodeAndOrd" parameterType="hashmap" resultType="hashmap">
+        select StockUniqueid,ProviderId,SalePrice,buyid from
+        vBuyBill as buy left join vbillindex as bindex on buy.BillID = bindex.BillID
+        where bindex.BillCode= #{billCode}
+        <if test="ord != null and ord != ''">
+            and ord = #{ord}
+        </if>
+    </select>
+    <select id="getBillInfoByBillCode" parameterType="hashmap" resultType="hashmap">
+        select BillId,BillCode from
+        vbillindex as bindex
+        where bindex.BillCode= #{billCode}
+
+    </select>
+
+    <select id="getSaleInfoStockUidBypRecAndSCDateAndYXDate" parameterType="hashmap" resultType="hashmap">
+        select top 1  vsale.StockUniqueid,vsale.costprice,vindex.BillID,vsale.ProviderId,vsale.saleid
+        from vbillindex as vindex left join vSaleBill vsale on  vindex.BillID = vsale.BillID
+        where vindex.BillCode = #{billCode} and vsale.PRec = #{pRec} and vsale.OutFactoryDate = #{scDate}
+        and ValidityPeriod = #{yxDate}
+    </select>
+    <select id="getBillTypeByBillId" parameterType="integer" resultType="integer">
+        select BillType from BillIndex where BillId  =#{billId}
+    </select>
+</mapper>

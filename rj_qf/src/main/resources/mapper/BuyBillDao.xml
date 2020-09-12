@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rj.qf.dao.BuyBillDao">
+    <select id="addBuyOrderIndex" resultType="integer" parameterType="com.rj.qf.bean.qf.buy.BuyIndexBean">
+            declare @BillId int;
+            exec @BillId = Gp_InsertOrderIndex #{BRec},#{ERec},#{CheckEId},#{BillEId},#{KRec},#{BillDate},
+            #{BillCode},#{BillType},#{TotalMoney},#{TotalQty},default,#{Checked},default,
+            #{Explain},#{ReachDate},#{Comment},#{Tax},0,0,'','','','','',0,0,$0.0000,0
+            select @BillId ;
+    </select>
+    <select id="addBuyOrderBill"  parameterType="com.rj.qf.bean.qf.buy.BuyBillBean">
+            exec Gp_InsertOrderBill #{BillID},#{PRec},#{Qty},#{Price},#{Total},#{Comment},#{Unit},#{KRec},#{SourceOrd},
+            #{Tax},#{TaxPrice},#{TaxTotal},#{AssQty},#{AssPrice},#{AssTaxPrice},#{UnitRate},#{PriceType},#{Ord}
+    </select>
+
+</mapper>
