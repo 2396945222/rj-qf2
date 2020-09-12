@@ -17,6 +17,7 @@ public class Test {
         list.add(5);
         list.add(6);
         list.add(7);
+        list.add(7);
         System.out.println(JSON.toJSONString(list));
         String str = "[1,2,3,4,5,6,7]";
         List<Integer> list1  = JSONObject.parseArray(str,Integer.class);
